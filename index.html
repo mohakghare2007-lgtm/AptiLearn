@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AptiLearn - Campus Placement Aptitude & Assessment Platform</title>
+  <meta name="description" content="Prepare and excel in campus placement aptitude tests for TCS NQT, Infosys, Deloitte, Accenture, Amazon, and Wipro with authentic mock tests, granular practice, and speed-solving shortcuts.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/exam.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="brand-wrapper" onclick="window.location.hash='#dashboard'">
+      <div class="brand-logo-mark">A</div>
+      <div class="brand-text">
+        <h1>AptiLearn</h1>
+        <div class="brand-tag">Placement Assessment Suite</div>
+      </div>
+    </div>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a class="nav-link active" data-view="dashboard" href="#dashboard">Dashboard</a></li>
+        <li><a class="nav-link" data-view="companies" href="#companies">Recruiter Tests</a></li>
+        <li><a class="nav-link" data-view="practice" href="#practice">Practice Hub</a></li>
+        <li><a class="nav-link" data-view="formulas" href="#formulas">Speed Hacks</a></li>
+        <li><a class="nav-link" data-view="analytics" href="#analytics">Performance</a></li>
+        <li><a class="nav-link" data-view="bookmarks" href="#bookmarks">Saved</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <!-- Dark / Light Theme Toggle -->
+      <button class="btn-header-action" id="theme-toggle-btn" onclick="AptiApp.toggleTheme()" title="Toggle Theme">
+        ☀️ Light
+      </button>
+
+      <!-- Audio Feedback Toggle -->
+      <button class="btn-header-action" id="sound-toggle-btn" title="Toggle Audio Feedback">
+        🔊 Sound On
+      </button>
+
+      <!-- Custom Drill Creator -->
+      <button class="btn btn-primary btn-outline-sm" id="btn-open-custom-test">
+        + Custom Test
+      </button>
+
+      <!-- User Authentication / Profile Pill -->
+      <button class="btn btn-primary btn-outline-sm" id="header-auth-btn" style="display:none;">
+        Sign In
+      </button>
+
+      <div class="user-profile-menu" id="user-profile-menu" title="Candidate profile & options">
+        <div class="user-avatar-circle" id="header-user-avatar">AS</div>
+        <span class="user-name-display" id="header-user-name">Aditya</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="main-wrapper">
+
+    <!-- ==========================================
+         VIEW: DASHBOARD
+         ========================================== -->
+    <section id="view-dashboard" class="view-container active">
+      <!-- Professional Hero -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <div class="hero-badge">Campus Recruitment 2025-26 Edition</div>
+          <h2 class="hero-title">Prepare with Precision. <br><span class="brand-highlight">Crack Enterprise Placements.</span></h2>
+          <p class="hero-desc">
+            Practice timed assessments modeled on <strong>TCS NQT, Infosys, Deloitte, Accenture, Amazon, and Wipro</strong> with 5-state question palettes, accurate negative marking, and pro shortcuts.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="AptiApp.startCompanyExam('tcs-nqt')">
+              Launch TCS NQT Mock Exam
+            </button>
+            <button class="btn btn-secondary" onclick="window.location.hash='#companies'">
+              View All 10 Recruiters
+            </button>
+            <button class="btn btn-secondary" onclick="window.location.hash='#practice'">
+              Explore Practice Bank
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Performance Analytics -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-info">
+            <div class="stat-val" id="dash-stat-tests">0</div>
+            <div class="stat-label">Mock Exams Completed</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-info">
+            <div class="stat-val" id="dash-stat-solved">0</div>
+            <div class="stat-label">Questions Attempted</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-info">
+            <div class="stat-val" id="dash-stat-accuracy">0%</div>
+            <div class="stat-label">Overall Accuracy</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-info">
+            <div class="stat-val" id="dash-stat-streak">1 Day</div>
+            <div class="stat-label">Practice Streak</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily 5-Min Workout Challenge -->
+      <div class="daily-challenge-box" id="daily-challenge-content">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Featured Recruiter Tests Preview -->
+      <div class="section-header">
+        <div>
+          <h2>Enterprise Recruiter Test Blueprints</h2>
+          <p>Authentic exam patterns with sectional time limits, negative marking, and recruiter cutoffs</p>
+        </div>
+        <button class="btn btn-outline-sm" onclick="window.location.hash='#companies'">View All 10 Recruiters →</button>
+      </div>
+
+      <div class="company-cards-grid" id="company-cards-preview">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Practice Topic Pillars -->
+      <div class="section-header" style="margin-top: 1.5rem;">
+        <div>
+          <h2>Aptitude Assessment Pillars</h2>
+          <p>Curated drills across Quantitative, Logical, Verbal, and Data Interpretation</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card" style="cursor: pointer;" onclick="PracticeManager.setCategory('Quantitative'); window.location.hash='#practice';">
+          <div class="stat-icon">📐</div>
+          <div class="stat-info">
+            <div class="stat-val" style="font-size: 1.15rem; font-family: var(--font-main);">Quantitative Aptitude</div>
+            <div class="stat-label">Work, Speed, Profit & Loss, Numbers</div>
+          </div>
+        </div>
+
+        <div class="stat-card" style="cursor: pointer;" onclick="PracticeManager.setCategory('Logical Reasoning'); window.location.hash='#practice';">
+          <div class="stat-icon">🧠</div>
+          <div class="stat-info">
+            <div class="stat-val" style="font-size: 1.15rem; font-family: var(--font-main);">Logical Reasoning</div>
+            <div class="stat-label">Syllogisms, Arrangements, Blood Relations</div>
+          </div>
+        </div>
+
+        <div class="stat-card" style="cursor: pointer;" onclick="PracticeManager.setCategory('Verbal Ability'); window.location.hash='#practice';">
+          <div class="stat-icon">✍️</div>
+          <div class="stat-info">
+            <div class="stat-val" style="font-size: 1.15rem; font-family: var(--font-main);">Verbal Ability</div>
+            <div class="stat-label">Grammar, Comprehension, Vocabulary</div>
+          </div>
+        </div>
+
+        <div class="stat-card" style="cursor: pointer;" onclick="PracticeManager.setCategory('Data Interpretation'); window.location.hash='#practice';">
+          <div class="stat-icon">📊</div>
+          <div class="stat-info">
+            <div class="stat-val" style="font-size: 1.15rem; font-family: var(--font-main);">Data Interpretation</div>
+            <div class="stat-label">Bar Graphs, Pie Charts, Tabular Data</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW: COMPANY RECRUITER TESTS (10 COMPANIES)
+         ========================================== -->
+    <section id="view-companies" class="view-container">
+      <div class="section-header">
+        <div>
+          <h2>Recruiter Assessment Blueprints</h2>
+          <p>Choose your target corporate drive to launch an authentic timed assessment with exact scoring rubrics</p>
+        </div>
+      </div>
+      <div class="company-cards-grid" id="company-cards-grid">
+        <!-- 10 Company Cards rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW: PRACTICE HUB
+         ========================================== -->
+    <section id="view-practice" class="view-container">
+      <div class="section-header">
+        <div>
+          <h2>Topic-Wise Practice Hub</h2>
+          <p id="practice-count-label">High-yield placement questions with step-by-step derivations and 10-second speed tricks</p>
+        </div>
+      </div>
+
+      <div class="practice-filters-container">
+        <!-- Main Category Filter -->
+        <div class="category-pills-bar" id="practice-categories-bar"></div>
+
+        <!-- Subtopics Filter -->
+        <div class="subtopic-pills-bar" id="practice-subtopics-bar"></div>
+
+        <!-- Filter Row -->
+        <div class="practice-search-row">
+          <div class="search-input-box">
+            <span class="search-icon-pos">🔍</span>
+            <input type="text" id="practice-search-input" placeholder="Search by topic, formula, or shortcut keywords..." oninput="PracticeManager.setSearch(this.value)">
+          </div>
+
+          <select class="filter-select" onchange="PracticeManager.setDifficulty(this.value)">
+            <option value="All">All Difficulties</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+
+          <select class="filter-select" id="practice-company-select" onchange="PracticeManager.setCompany(this.value)">
+            <option value="All">All Recruiters</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Questions List -->
+      <div class="questions-list-container" id="practice-questions-list">
+        <!-- Questions rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW: EXAM SIMULATOR (AUTHENTIC TCS iON / AMCAT UI)
+         ========================================== -->
+    <section id="view-exam" class="view-container">
+      <!-- Top Exam Bar -->
+      <div class="exam-top-bar">
+        <div class="exam-info-header">
+          <h2 id="exam-title-display">Placement Mock Exam</h2>
+          <div class="exam-marking-tag" id="exam-neg-marking">Negative Marking: No</div>
+        </div>
+
+        <div class="exam-timer-wrapper">
+          <div class="timer-box">
+            <span class="timer-label">Time Remaining:</span>
+            <span class="timer-display" id="exam-timer-display">15:00</span>
+          </div>
+          <button class="btn btn-secondary" id="exam-btn-submit" style="color: var(--accent-rose); border-color: var(--accent-rose);">
+            Finish & Submit Exam
+          </button>
+        </div>
+      </div>
+
+      <!-- 2-Column Workspace -->
+      <div class="exam-workspace-grid">
+        <!-- Main Question Console -->
+        <div class="exam-question-panel">
+          <div class="exam-question-top">
+            <div class="exam-q-num-label" id="exam-q-number">Question 1 of 10</div>
+            <div class="exam-q-section-label" id="exam-q-category">Quantitative &bull; Time & Work</div>
+          </div>
+
+          <div class="exam-question-content">
+            <div class="exam-question-text" id="exam-q-text">
+              <!-- Question text -->
+            </div>
+
+            <div class="exam-options-stack" id="exam-options-container">
+              <!-- Radio options -->
+            </div>
+          </div>
+
+          <!-- Controls Toolbar -->
+          <div class="exam-actions-toolbar">
+            <div class="toolbar-left">
+              <button class="btn-exam-action" id="exam-btn-prev">← Previous</button>
+              <button class="btn-exam-action" id="exam-btn-clear">Clear Response</button>
+              <button class="btn-exam-action btn-exam-mark" id="exam-btn-mark-review">Mark for Review & Next</button>
+            </div>
+            <div class="toolbar-right">
+              <button class="btn-exam-action btn-exam-primary" id="exam-btn-save-next">Save & Next →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Palette Sidebar -->
+        <aside class="exam-palette-sidebar">
+          <!-- Candidate Info -->
+          <div class="exam-candidate-box">
+            <div class="candidate-avatar-thumb">AS</div>
+            <div class="candidate-text">
+              <h4 id="exam-candidate-name">Aditya Sharma</h4>
+              <p id="exam-candidate-college">National Institute of Technology</p>
+            </div>
+          </div>
+
+          <div class="palette-title">
+            <span>Question Palette</span>
+            <small style="color: var(--text-muted); font-size: 0.78rem;">Click to jump</small>
+          </div>
+
+          <!-- Legend -->
+          <div class="palette-legend-grid">
+            <div class="legend-item">
+              <div class="legend-badge legend-answered" id="count-answered">0</div>
+              <span>Answered</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-badge legend-not-answered" id="count-not-answered">0</div>
+              <span>Not Answered</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-badge legend-not-visited" id="count-not-visited">0</div>
+              <span>Not Visited</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-badge legend-marked" id="count-marked">0</div>
+              <span>Review</span>
+            </div>
+            <div class="legend-item" style="grid-column: span 2;">
+              <div class="legend-badge legend-ans-marked" id="count-ans-marked">0</div>
+              <span>Answered & Review</span>
+            </div>
+          </div>
+
+          <!-- Matrix Grid -->
+          <div class="palette-buttons-matrix" id="exam-palette-grid">
+            <!-- Palette buttons rendered dynamically -->
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW: EXAM RESULT & SCORECARD
+         ========================================== -->
+    <section id="view-result" class="view-container">
+      <div class="result-header-box">
+        <h2 id="result-test-name">Assessment Diagnostic Report</h2>
+        <p style="color: var(--text-secondary);">Comprehensive performance analysis against recruitment cutoffs</p>
+      </div>
+
+      <div class="result-banner passed" id="result-status-banner">
+        <!-- Rendered by app.js -->
+      </div>
+
+      <!-- Scorecard Metric Cards -->
+      <div class="scorecard-metrics-grid">
+        <div class="scorecard-metric-card">
+          <div class="metric-number" id="result-score-val">0</div>
+          <div class="metric-title">Total Score</div>
+        </div>
+        <div class="scorecard-metric-card">
+          <div class="metric-number" id="result-accuracy-val">0%</div>
+          <div class="metric-title">Accuracy Rate</div>
+        </div>
+        <div class="scorecard-metric-card">
+          <div class="metric-number" id="result-attempted-val">0 / 0</div>
+          <div class="metric-title">Attempted</div>
+        </div>
+        <div class="scorecard-metric-card">
+          <div class="metric-number" id="result-time-val">0m 0s</div>
+          <div class="metric-title">Time Taken</div>
+        </div>
+      </div>
+
+      <!-- Sectional Diagnostic -->
+      <div class="category-breakdown-card">
+        <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem;">Section-Wise Performance Breakdown</h3>
+        <div id="result-category-breakdown">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Detailed Review -->
+      <div class="section-header" style="margin-top: 2rem;">
+        <div>
+          <h3>Detailed Solutions & Shortcut Analysis</h3>
+          <p>Review candidate choices, verify correct options, and study the 10-second speed hacks</p>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button class="btn btn-outline-sm" onclick="AptiApp.renderResultQuestionsReview('all')">All Questions</button>
+          <button class="btn btn-outline-sm" onclick="AptiApp.renderResultQuestionsReview('correct')">Correct Only</button>
+          <button class="btn btn-outline-sm" onclick="AptiApp.renderResultQuestionsReview('incorrect')">Incorrect Only</button>
+          <button class="btn btn-outline-sm" onclick="AptiApp.renderResultQuestionsReview('unattempted')">Unattempted</button>
+        </div>
+      </div>
+
+      <div id="result-questions-review-list">
+        <!-- Review cards rendered by app.js -->
+      </div>
+
+      <div style="margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center;">
+        <button class="btn btn-primary" onclick="window.location.hash='#companies'">Take Another Assessment</button>
+        <button class="btn btn-secondary" onclick="window.location.hash='#practice'">Practice Weak Areas</button>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW: FORMULAS & SPEED HACKS
+         ========================================== -->
+    <section id="view-formulas" class="view-container">
+      <div class="section-header">
+        <div>
+          <h2>Formulas & 10-Second Speed Hacks</h2>
+          <p>Essential mathematical formulas and speed shortcuts for rapid pre-interview revision</p>
+        </div>
+      </div>
+
+      <div class="formula-cards-grid" id="formulas-cards-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW: PERFORMANCE ANALYTICS
+         ========================================== -->
+    <section id="view-analytics" class="view-container">
+      <div class="section-header">
+        <div>
+          <h2>Placement Readiness & Test History</h2>
+          <p>Historical assessment performance and score logs</p>
+        </div>
+      </div>
+
+      <div class="category-breakdown-card">
+        <h3 style="font-size: 1.15rem; margin-bottom: 1.25rem;">Recent Assessment Logs</h3>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--border-subtle); color: var(--text-muted); text-align: left;">
+                <th style="padding: 0.75rem 1rem;">Assessment & Date</th>
+                <th style="padding: 0.75rem 1rem;">Score</th>
+                <th style="padding: 0.75rem 1rem;">Accuracy</th>
+                <th style="padding: 0.75rem 1rem;">Attempted</th>
+                <th style="padding: 0.75rem 1rem;">Duration</th>
+                <th style="padding: 0.75rem 1rem;">Status</th>
+              </tr>
+            </thead>
+            <tbody id="analytics-history-tbody">
+              <!-- Rendered by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW: BOOKMARKED QUESTIONS
+         ========================================== -->
+    <section id="view-bookmarks" class="view-container">
+      <div class="section-header">
+        <div>
+          <h2>Saved Tricky Questions</h2>
+          <p>Candidate revision repository for tough questions flagged during practice</p>
+        </div>
+      </div>
+
+      <div class="questions-list-container" id="bookmarks-list-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       CANDIDATE AUTHENTICATION MODAL
+       ========================================== -->
+  <div class="modal-overlay" id="auth-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Candidate Portal</h3>
+        <button class="btn-close-modal" id="btn-close-auth-modal">&times;</button>
+      </div>
+
+      <div class="auth-tabs-nav">
+        <button class="auth-tab-btn active" id="tab-btn-login">Sign In</button>
+        <button class="auth-tab-btn" id="tab-btn-register">Create Account</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="auth-login-form">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="login-email-input" value="aditya.sharma@campus.edu" required placeholder="name@college.edu">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-pass-input" value="password123" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">
+          Sign In to AptiLearn
+        </button>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.75rem; text-align: center;">
+          Demo credentials pre-filled for convenience.
+        </p>
+      </form>
+
+      <!-- Register Form -->
+      <form id="auth-register-form" style="display: none;">
+        <div class="form-group">
+          <label>Candidate Full Name</label>
+          <input type="text" id="reg-name-input" required placeholder="e.g. Priya Patel">
+        </div>
+        <div class="form-group">
+          <label>College / University</label>
+          <input type="text" id="reg-college-input" required placeholder="e.g. Delhi Technological University">
+        </div>
+        <div class="form-group">
+          <label>Target Dream Company</label>
+          <select id="reg-company-input">
+            <option value="TCS NQT">TCS NQT</option>
+            <option value="Infosys">Infosys Specialist Programmer</option>
+            <option value="Deloitte">Deloitte Consulting</option>
+            <option value="Accenture">Accenture Cognitive</option>
+            <option value="Amazon">Amazon</option>
+            <option value="Wipro">Wipro Elite NTH</option>
+            <option value="Cognizant">Cognizant GenC</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Graduation Year</label>
+          <select id="reg-year-input">
+            <option value="2025">Batch of 2025</option>
+            <option value="2026">Batch of 2026</option>
+            <option value="2027">Batch of 2027</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="reg-email-input" required placeholder="priya@campus.edu">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="reg-pass-input" required placeholder="Create secure password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">
+          Register Candidate Account
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       CUSTOM TEST BUILDER MODAL
+       ========================================== -->
+  <div class="modal-overlay" id="custom-test-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create Custom Practice Drill</h3>
+        <button class="btn-close-modal" id="btn-close-modal">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label>Subject Pillar</label>
+        <select id="custom-category-select">
+          <option value="All">All Categories Mixed</option>
+          <option value="Quantitative">Quantitative Aptitude</option>
+          <option value="Logical Reasoning">Logical Reasoning</option>
+          <option value="Verbal Ability">Verbal Ability</option>
+          <option value="Data Interpretation">Data Interpretation</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Number of Questions</label>
+        <select id="custom-count-select">
+          <option value="5">5 Questions (Speed Drill)</option>
+          <option value="8" selected>8 Questions (Standard)</option>
+          <option value="12">12 Questions (Extended)</option>
+          <option value="15">15 Questions (Full Section)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Duration Limit</label>
+        <select id="custom-duration-select">
+          <option value="5">5 Minutes</option>
+          <option value="10" selected>10 Minutes</option>
+          <option value="15">15 Minutes</option>
+          <option value="20">20 Minutes</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Negative Marking Scheme</label>
+        <select id="custom-neg-select">
+          <option value="0">None (0.0)</option>
+          <option value="0.25">Standard (-0.25 marks)</option>
+          <option value="0.33">Strict (-0.33 marks)</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="btn-start-custom-test" style="margin-top: 1.5rem;">
+        Launch Assessment
+      </button>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/data/questions.js"></script>
+  <script src="js/data/companies.js"></script>
+  <script src="js/data/formulas.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/exam-engine.js"></script>
+  <script src="js/practice.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
